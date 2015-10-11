@@ -1,7 +1,7 @@
-# Introduction to crawler
-Crawler is a simple web crawler that performs the following activities: 
-1. crawls all pages within a single domain
-2. creates a site map, showing which static assets each page depends on
+# Introduction to caterpillar
+Caterpillar is a simple web crawler that performs the following activities:
+1. Crawls all pages within a single domain
+2. Creates a site map, showing which static assets each page depends on
 
 ## Technologies used
 PhantomJS, jQuery

@@ -26,17 +26,27 @@ module.exports = {
                   staticAssets: results[1]
                 };
 
+                // console.log("entry: ", entry);
+
                 var pageLinks = results[2];
 
-                Crawler.addEntryToSiteMap(entry).then(function(){
+                Crawler.addEntryToSiteMap(entry).then(function(siteMap){
 
-                  // console.log("pageLinks: ", pageLinks);
+                  resolve(siteMap);
 
-                  for (var i = 0; i < pageLinks.length; i++) {
+                  // context.crawlPages(pageLinks[2]);
+                  // context.crawlPages(pageLinks[1]);
+                  // context.crawlPages(pageLinks[2]);
 
-                    context.crawlPages(pageLinks[i]);
+                  //resolve(siteMap);
 
-                  }
+                  // Promise.all(
+                  //   pageLinks.map(function(pageLink) {
+                  //     return context.crawlPages(pageLink);
+                  //   })
+                  // ).then(function(){
+                  //   resolve(Crawler.getSiteMap());
+                  // });
                   
                 });
 
@@ -48,8 +58,6 @@ module.exports = {
         }
 
       });
-
-      resolve(Crawler.getSiteMap());
 
     });
 

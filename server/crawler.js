@@ -11,7 +11,11 @@ module.exports = (function() {
   // in order to prevent mapping of same URL multiple times (and endless looping)
   var checkSiteMapForUrl = function(url) {
 
-    root = url;
+    if (url[url.length - 1] === "/") {
+      root = url.slice(0, url.length - 1);
+    } else {
+      root = url;
+    }
 
     return new Promise(function(resolve, reject){
 
@@ -22,7 +26,10 @@ module.exports = (function() {
           exists = true;
         }
       }
-      
+
+      console.log("root: ", root);
+      console.log("url of: ", url, exists);
+
       resolve(exists);
 
     });
@@ -90,7 +97,7 @@ module.exports = (function() {
   var getPageLinks = function(html) {
 
     var pageLinks = [];
-    var rootCopy = root.slice(0, root.length - 1);
+    //var rootCopy = root.slice(0, root.length - 1);
 
     return new Promise(function(resolve, reject){
 
@@ -100,9 +107,13 @@ module.exports = (function() {
 
       for (var key in pageLinkResults) {
         if (pageLinkResults[key].attribs) {
-          if (pageLinkResults[key].attribs.href) {
-            var fullPageLink = rootCopy + pageLinkResults[key].attribs.href;
-            pageLinks.push(fullPageLink);
+          var href = pageLinkResults[key].attribs.href;
+          if (href) {
+            if (href.slice(0,4) === "http") {
+              pageLinks.push(href);
+            } else {
+              pageLinks.push(root + href);
+            }
           }
         }
       }
@@ -118,7 +129,7 @@ module.exports = (function() {
     return new Promise(function(resolve, reject){
 
       siteMap[entry.rootUrl] = entry.staticAssets;
-      resolve();
+      resolve(siteMap);
 
     });
 

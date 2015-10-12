@@ -9,14 +9,14 @@ module.exports = {
 
     return new Promise(function(resolve, reject){
 
-      Crawler.checkSiteMapForUrl(url).then(function(exists){
+      Crawler.checkSiteMapForUrl(url).then(function(isValid){
         
-        if(!exists) {
+        if(isValid) {
           
           Crawler.sendPageRequest(url).then(function(html){
 
             Promise.all([
-                Crawler.getRootUrl(),
+                Crawler.getCurrentUrl(),
                 Crawler.getPageStaticAssets(html),
                 Crawler.getPageLinks(html)
               ]).then(function(results){
@@ -26,27 +26,19 @@ module.exports = {
                   staticAssets: results[1]
                 };
 
-                // console.log("entry: ", entry);
-
                 var pageLinks = results[2];
 
                 Crawler.addEntryToSiteMap(entry).then(function(siteMap){
 
-                  resolve(siteMap);
+                  console.log(siteMap);
 
-                  // context.crawlPages(pageLinks[2]);
-                  // context.crawlPages(pageLinks[1]);
-                  // context.crawlPages(pageLinks[2]);
-
-                  //resolve(siteMap);
-
-                  // Promise.all(
-                  //   pageLinks.map(function(pageLink) {
-                  //     return context.crawlPages(pageLink);
-                  //   })
-                  // ).then(function(){
-                  //   resolve(Crawler.getSiteMap());
-                  // });
+                  Promise.all(
+                    pageLinks.map(function(pageLink) {
+                      return context.crawlPages(pageLink);
+                    })
+                  ).then(function(){
+                    resolve(Crawler.getSiteMap());
+                  });
                   
                 });
 

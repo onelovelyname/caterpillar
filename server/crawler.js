@@ -22,7 +22,7 @@ module.exports = (function() {
           exists = true;
         }
       }
-
+      
       resolve(exists);
 
     });
@@ -113,9 +113,12 @@ module.exports = (function() {
 
   };
 
-  var addEntryToSiteMap = function() {
+  var addEntryToSiteMap = function(entry) {
 
     return new Promise(function(resolve, reject){
+
+      siteMap[entry.rootUrl] = entry.staticAssets;
+      resolve();
 
     });
 
@@ -123,14 +126,15 @@ module.exports = (function() {
 
   var getSiteMap = function() {
 
-    return new Promise(function(resolve, reject){
-
-      resolve(siteMap);
-
-    });
+    return siteMap;
 
   };
 
+  var getRootUrl = function() {
+
+    return root;
+
+  };
 
   return {
 
@@ -139,7 +143,8 @@ module.exports = (function() {
     getPageLinks: getPageLinks,
     addEntryToSiteMap: addEntryToSiteMap,
     checkSiteMapForUrl: checkSiteMapForUrl,
-    getSiteMap: getSiteMap
+    getSiteMap: getSiteMap,
+    getRootUrl: getRootUrl
   
   };
   

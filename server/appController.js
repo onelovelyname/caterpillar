@@ -5,6 +5,8 @@ module.exports = {
 
   crawlPages: function(url) {
 
+    var context = this;
+
     return new Promise(function(resolve, reject){
 
       Crawler.checkSiteMapForUrl(url).then(function(exists){
@@ -14,48 +16,40 @@ module.exports = {
           Crawler.sendPageRequest(url).then(function(html){
 
             Promise.all([
-              Crawler.getPageStaticAssets(html), Crawler.getPageLinks(html)
+                Crawler.getRootUrl(),
+                Crawler.getPageStaticAssets(html),
+                Crawler.getPageLinks(html)
               ]).then(function(results){
 
-                resolve(results);
+                var entry = {
+                  rootUrl: results[0],
+                  staticAssets: results[1]
+                };
+
+                var pageLinks = results[2];
+
+                Crawler.addEntryToSiteMap(entry).then(function(){
+
+                  // console.log("pageLinks: ", pageLinks);
+
+                  for (var i = 0; i < pageLinks.length; i++) {
+
+                    context.crawlPages(pageLinks[i]);
+
+                  }
+                  
+                });
+
 
               });
 
-            // Crawler.getPageStaticAssets(html).then(function(staticAssets){
-              
-            //   resolve(staticAssets);
-
-            // });
-          
-            // Promise.all([
-            //   Crawler.getPageStaticAssets(html),
-            //   Crawler.getPageLinks(html)
-            // ]).then(function(results){
-
-            //   // results[0] = static assets
-            //   // results[1] = children links
-            //   // {
-            //   //   url: url,
-            //   //   staticAssets: [a, b],
-            //   //   childLinks: [a, b],
-            //   //   depth: 1
-            //   // }
-
-            //   Crawler.addEntryToSiteMap(entry).then(function(children){
-            //     if(children){
-            //       // call this function recursively!
-            //     }
-            //   });
-            // });
           });
 
         }
 
       });
 
-      // Crawler.getSiteMap().then(function(sitemap){
-      //   resolve(sitemap);
-      // });
+      resolve(Crawler.getSiteMap());
 
     });
 

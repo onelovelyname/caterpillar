@@ -1,0 +1,27 @@
+{
+  "name": "Caterpillar",
+  "version": "0.0.1",
+  "description": "A simple web crawler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/onelovelyname/caterpillar.git"
+  },
+  "author": "Melanie Gin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onelovelyname/caterpillar/issues"
+  },
+  "homepage": "https://github.com/onelovelyname/caterpillar",
+  "dependencies": {
+    "bluebird": "^2.10.2",
+    "body-parser": "^1.14.1",
+    "cheerio": "^0.19.0",
+    "express": "^4.13.3",
+    "jquery": "^2.1.4",
+    "request": "^2.65.0"
+  }
+}

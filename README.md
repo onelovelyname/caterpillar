@@ -6,5 +6,5 @@ Caterpillar is a simple web crawler that performs the following activities:
 ## Technologies used
 PhantomJS, jQuery
 
-## Instructions for running the crawler
+## Instructions for running caterpillar
 1. Please install PhantomJS on your machine and place its executable somewhere in the $PATH.

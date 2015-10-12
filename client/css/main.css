@@ -1,0 +1,28 @@
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+  section.content {
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+/* Tablets and small to medium desktops */
+@media (min-width: 768px) and (max-width: 1199px) {
+  section.content {
+    width: 70%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+/* Landscape phones and smaller */
+@media (max-width: 767px) {
+  section.content {
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+/* Caterpillar icon by Nick Kinling from the Noun Project */

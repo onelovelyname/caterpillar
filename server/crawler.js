@@ -27,15 +27,13 @@ module.exports = (function() {
     currentUrl = url;
 
     return new Promise(function(resolve, reject){
+    
+      // if the site already exists in the SiteMap
+      // if the site is not on the root URL's domain
+      // the site is not valid, and should not be run
+      if (url.slice(0, root.length) !== root || siteMap[url]) {
+        resolve(false);
 
-      for (var key in siteMap) {
-        // if the site already exists in the SiteMap
-        // or if the site is not on the root URL's domain
-        // the site is not valid, and should not be run
-
-        if (key === url || key.slice(0, root.length) !== root) {
-          resolve(false);
-        }
       }
 
       resolve(true);
@@ -134,12 +132,15 @@ module.exports = (function() {
 
   var addEntryToSiteMap = function(entry) {
 
-    return new Promise(function(resolve, reject){
+    siteMap[entry.currentUrl] = entry.staticAssets;
 
-      siteMap[entry.rootUrl] = entry.staticAssets;
-      resolve(siteMap);
+//    console.log("siteMap: ", siteMap);
+    // return new Promise(function(resolve, reject){
 
-    });
+    //   siteMap[entry.rootUrl] = entry.staticAssets;
+    //   resolve(siteMap);
+
+    // });
 
   };
 

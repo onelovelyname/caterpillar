@@ -11,6 +11,8 @@ module.exports = {
 
       Crawler.checkSiteMapForUrl(url).then(function(isValid){
         
+        console.log(url, isValid);
+
         if(isValid) {
           
           Crawler.sendPageRequest(url).then(function(html){
@@ -22,31 +24,53 @@ module.exports = {
               ]).then(function(results){
 
                 var entry = {
-                  rootUrl: results[0],
+                  currentUrl: results[0],
                   staticAssets: results[1]
                 };
 
                 var pageLinks = results[2];
 
-                Crawler.addEntryToSiteMap(entry).then(function(siteMap){
+                console.log("pageLinks: ", pageLinks);
 
-                  console.log(siteMap);
+                Crawler.addEntryToSiteMap(entry);
 
-                  Promise.all(
-                    pageLinks.map(function(pageLink) {
-                      return context.crawlPages(pageLink);
-                    })
-                  ).then(function(){
+                // context.crawlPages(pageLinks[0]).then(function(){
+                //   resolve(Crawler.getSiteMap());
+                // });
+
+                Promise.all([
+                  // context.crawlPages(pageLinks[0]),
+                  context.crawlPages(pageLinks[2])
+                  ]).then(function(){
                     resolve(Crawler.getSiteMap());
                   });
-                  
-                });
 
+                  // Promise.all([
+                  //   context.crawlPages(pageLinks[0]),
+                  //   //context.crawlPages(pageLinks[1])
+                  //   //context.crawlPages(pageLinks[3])
+                  //   //context.crawlPages(pageLinks[2])
+                  // ]).then(function(){
+                  //   resolve(Crawler.getSiteMap());
+                  // });
+
+                  // Promise.all(
+                  //   pageLinks.map(function(pageLink) {
+                  //     return context.crawlPages(pageLink);
+                  //   })
+                  // ).then(function(){
+                  //   resolve(Crawler.getSiteMap());
+                  // }).catch(function(error) {
+                  //   console.log("error in crawling pages: ", error);
+                  //   reject(error);
+                  // });
 
               });
 
           });
 
+        } else {
+          resolve();
         }
 
       });

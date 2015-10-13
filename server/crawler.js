@@ -12,6 +12,7 @@ module.exports = (function() {
   // in order to prevent mapping of same URL multiple times (and endless looping)
   var checkSiteMapForUrl = function(url) {
 
+    url = url.toString();
     // set root as the URL passed in by the user
     // this will only be set once, the first time this function is called
     if (!root) {
@@ -31,7 +32,7 @@ module.exports = (function() {
       // if the site already exists in the SiteMap
       // if the site is not on the root URL's domain
       // the site is not valid, and should not be run
-      if (url.slice(0, root.length) !== root || siteMap[url]) {
+      if (url.substring(0, root.length) !== root || siteMap[url]) {
         resolve(false);
 
       }
@@ -133,14 +134,6 @@ module.exports = (function() {
   var addEntryToSiteMap = function(entry) {
 
     siteMap[entry.currentUrl] = entry.staticAssets;
-
-//    console.log("siteMap: ", siteMap);
-    // return new Promise(function(resolve, reject){
-
-    //   siteMap[entry.rootUrl] = entry.staticAssets;
-    //   resolve(siteMap);
-
-    // });
 
   };
 

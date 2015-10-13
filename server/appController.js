@@ -3,7 +3,7 @@ var Promise = require("bluebird");
 
 module.exports = {
 
-  crawlPages: function(url) {
+  crawlPages: function(url, req, res) {
 
     var context = this;
 
@@ -28,43 +28,22 @@ module.exports = {
                   staticAssets: results[1]
                 };
 
+                //res.write(JSON.stringify(entry));
+
                 var pageLinks = results[2];
 
-                console.log("pageLinks: ", pageLinks);
+                var testPageLinks = pageLinks.slice(0,10);
 
                 Crawler.addEntryToSiteMap(entry);
 
-                // context.crawlPages(pageLinks[0]).then(function(){
-                //   resolve(Crawler.getSiteMap());
-                // });
-
-                Promise.all([
-                  // context.crawlPages(pageLinks[0]),
-                  context.crawlPages(pageLinks[2])
-                  ]).then(function(){
-                    resolve(Crawler.getSiteMap());
+                Promise.reduce(testPageLinks, function(total, pageLink){
+                  return context.crawlPages(pageLink, req, res).then(function(){
                   });
-
-                  // Promise.all([
-                  //   context.crawlPages(pageLinks[0]),
-                  //   //context.crawlPages(pageLinks[1])
-                  //   //context.crawlPages(pageLinks[3])
-                  //   //context.crawlPages(pageLinks[2])
-                  // ]).then(function(){
-                  //   resolve(Crawler.getSiteMap());
-                  // });
-
-                  // Promise.all(
-                  //   pageLinks.map(function(pageLink) {
-                  //     return context.crawlPages(pageLink);
-                  //   })
-                  // ).then(function(){
-                  //   resolve(Crawler.getSiteMap());
-                  // }).catch(function(error) {
-                  //   console.log("error in crawling pages: ", error);
-                  //   reject(error);
-                  // });
-
+                }).then(function(){
+                  var siteMap = Crawler.getSiteMap();
+                  console.log("siteMap: ", siteMap);
+                  resolve(JSON.stringify(siteMap));
+                });
               });
 
           });

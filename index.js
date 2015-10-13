@@ -7,10 +7,10 @@ var app = express();
 app.listen(port);
 
 app.get("/api/pages", function(req, res) {
-  
+ 
   var url = req.query.url;
 
-  appController.crawlPages(url).then(function(sitemap){
+  appController.crawlPages(url, req, res).then(function(sitemap){
     res.send(sitemap);
   });
 

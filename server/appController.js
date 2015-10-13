@@ -32,7 +32,7 @@ module.exports = {
 
                 var pageLinks = results[2];
 
-                var testPageLinks = pageLinks.slice(0,10);
+                var testPageLinks = pageLinks.slice(0,2);
 
                 Crawler.addEntryToSiteMap(entry);
 

@@ -5,8 +5,7 @@ app.LayoutView = Marionette.LayoutView.extend({
   tagName: 'section',
 
   template: _.template("<section id='form-region'></section>"+
-    "<section id='results-region'></section>"+
-    "<section id='info-region'></section>"),
+    "<section class='table-responsive' id='results-region'></section>"),
 
   regions: {
     'form': '#form-region',

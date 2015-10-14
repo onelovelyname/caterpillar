@@ -1,6 +1,10 @@
+td.col-url, td.col-img, td.col-link, td.col-script {
+  max-width: 300px;
+}
+
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
-  section.content {
+  section.greeting {
     width: 50%;
     text-align: center;
     margin: 0 auto;
@@ -9,7 +13,7 @@
 
 /* Tablets and small to medium desktops */
 @media (min-width: 768px) and (max-width: 1199px) {
-  section.content {
+  section.greeting {
     width: 70%;
     text-align: center;
     margin: 0 auto;
@@ -18,7 +22,7 @@
 
 /* Landscape phones and smaller */
 @media (max-width: 767px) {
-  section.content {
+  section.greeting {
     width: 90%;
     text-align: center;
     margin: 0 auto;

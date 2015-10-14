@@ -16,13 +16,15 @@ app.FormView = Marionette.ItemView.extend({
   },
 
   handleSubmit: function(event){
-    console.log("event heard!");
+    
     event.preventDefault();
     var url = $("#input-url").val();
     var requestUrl = "api/pages?" + "url=" + url;
 
     $.get('api/pages', {url: url}, function(results){
       
+      console.log("got results from server!");
+
       var entries = JSON.parse(results);
       var entryModels = [];
 

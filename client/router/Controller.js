@@ -9,7 +9,7 @@ app.Controller = Marionette.Object.extend({
 
   home: function() {
     app.LayoutViewInstance.getRegion('form').show(new app.FormView());
-    app.LayoutViewInstance.getRegion('results').show(new app.SiteMapView());
+    app.LayoutViewInstance.getRegion('results').show(new app.SiteMapView({collection: app.siteMap}));
   }
 
 });

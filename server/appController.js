@@ -32,7 +32,7 @@ module.exports = {
 
                 var pageLinks = results[2];
 
-                var testPageLinks = pageLinks.slice(0,2);
+                var testPageLinks = pageLinks.slice(0,8);
 
                 Crawler.addEntryToSiteMap(entry);
 
@@ -41,7 +41,6 @@ module.exports = {
                   });
                 }).then(function(){
                   var siteMap = Crawler.getSiteMap();
-                  console.log("siteMap: ", siteMap);
                   resolve(JSON.stringify(siteMap));
                 });
               });

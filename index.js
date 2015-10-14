@@ -10,6 +10,8 @@ app.get("/api/pages", function(req, res) {
  
   var url = req.query.url;
 
+  res.connection.setTimeout(0);
+
   appController.crawlPages(url, req, res).then(function(sitemap){
     res.send(sitemap);
   });

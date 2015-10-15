@@ -32,11 +32,11 @@ module.exports = {
 
                 var pageLinks = results[2];
 
-                var testPageLinks = pageLinks.slice(0,8);
+                var testPageLinks = pageLinks.slice(0,12);
 
                 Crawler.addEntryToSiteMap(entry);
 
-                Promise.reduce(testPageLinks, function(total, pageLink){
+                Promise.reduce(pageLinks, function(total, pageLink){
                   return context.crawlPages(pageLink, req, res).then(function(){
                   });
                 }).then(function(){

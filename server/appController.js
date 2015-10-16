@@ -13,37 +13,48 @@ module.exports = {
         
         console.log(url, isValid);
 
-        if(isValid) {
+        if (isValid) {
           
           Crawler.sendPageRequest(url).then(function(html){
 
-            Promise.all([
-                Crawler.getCurrentUrl(),
-                Crawler.getPageStaticAssets(html),
-                Crawler.getPageLinks(html)
+            if (html) {
+
+              Promise.all([
+                  Crawler.getCurrentUrl(),
+                  Crawler.getPageStaticAssets(html),
+                  Crawler.getPageLinks(html)
               ]).then(function(results){
 
-                var entry = {
-                  currentUrl: results[0],
-                  staticAssets: results[1]
-                };
+                if (results) {
 
-                //res.write(JSON.stringify(entry));
+                  var entry = {
+                    currentUrl: results[0],
+                    staticAssets: results[1]
+                  };
 
-                var pageLinks = results[2];
+                  var pageLinks = results[2];
 
-                var testPageLinks = pageLinks.slice(0,12);
+                  var testPageLinks = pageLinks.slice(0,2);
 
-                Crawler.addEntryToSiteMap(entry);
+                  Crawler.addEntryToSiteMap(entry);
 
-                Promise.reduce(pageLinks, function(total, pageLink){
-                  return context.crawlPages(pageLink, req, res).then(function(){
+                  Promise.reduce(pageLinks, function(total, pageLink){
+                    return context.crawlPages(pageLink, req, res).then(function(){
+                    });
+                  }).then(function(){
+                    var siteMap = Crawler.getSiteMap();
+                    resolve(JSON.stringify(siteMap));
                   });
-                }).then(function(){
-                  var siteMap = Crawler.getSiteMap();
-                  resolve(JSON.stringify(siteMap));
-                });
+                  
+                } else {
+                  resolve();
+                }
+
               });
+
+            } else {
+              resolve();
+            }
 
           });
 

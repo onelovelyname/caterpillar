@@ -48,10 +48,13 @@ module.exports = (function() {
     return new Promise(function(resolve, reject) {
 
       request(url, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
 
+        if (!error && response.statusCode === 200) {
+          console.log("body in sendPageRequest: ", body);
           resolve(body);
 
+        } else {
+          resolve();
         }
       });
 

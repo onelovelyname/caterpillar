@@ -6,7 +6,7 @@ app.SiteMapView = Marionette.CompositeView.extend({
 
   className: "table table-hover",
 
-  template: _.template("<thead><tr><th class='col-url'>URL</th><th class='col-img'>Images</th><th class='col-link'>Links</th><th class='col-script'>Scripts</th></tr></thead><tbody></tbody>"),
+  template: _.template("<caption></caption><thead><tr><th class='col-url'>URL</th><th class='col-img'>Images</th><th class='col-link'>Links</th><th class='col-script'>Scripts</th></tr></thead><tbody></tbody>"),
 
   childView: app.SiteEntryView,
 

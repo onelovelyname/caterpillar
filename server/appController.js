@@ -5,6 +5,13 @@ module.exports = {
 
   crawlPages: function(url, req, res) {
 
+    // if it is the first time running crawlPages,
+    // reset siteMap to empty object (to avoid storing past results)
+    if (!Crawler.getRootUrl()) {
+      console.log("calling resetSiteMap");
+      Crawler.resetSiteMap();
+    }
+
     var context = this;
 
     return new Promise(function(resolve, reject){
@@ -38,11 +45,16 @@ module.exports = {
 
                   Crawler.addEntryToSiteMap(entry);
 
-                  Promise.reduce(pageLinks, function(total, pageLink){
+                  Promise.reduce(testPageLinks, function(total, pageLink){
                     return context.crawlPages(pageLink, req, res).then(function(){
                     });
                   }).then(function(){
                     var siteMap = Crawler.getSiteMap();
+                    
+                    // reset rootUrl so that future calls to crawlPages
+                    // can reset siteMap
+                    Crawler.resetRootUrl();
+                    
                     resolve(JSON.stringify(siteMap));
                   });
                   

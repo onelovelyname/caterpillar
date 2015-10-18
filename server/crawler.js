@@ -2,6 +2,10 @@ var Promise = require("bluebird");
 var request = require("request");
 var cheerio = require("cheerio");
 
+// monitor all HTTP(S) requests made by request module
+// and their responses from external servers
+//require('request-debug')(request);
+
 module.exports = (function() {
 
   var siteMap = {};
@@ -49,8 +53,12 @@ module.exports = (function() {
 
       request(url, function(error, response, body) {
 
+        // console.log("error in sendPageRequest: ", error);
+        // console.log("response status in sendPageRequest: ", response.statusCode);
+
+
         if (!error && response.statusCode === 200) {
-          console.log("body in sendPageRequest: ", body);
+          // console.log("body in sendPageRequest: ", body);
           resolve(body);
 
         } else {
@@ -158,6 +166,18 @@ module.exports = (function() {
 
   };
 
+  var resetSiteMap = function() {
+
+    siteMap = {};
+
+  };
+
+  var resetRootUrl = function() {
+
+    root = undefined;
+
+  };
+
   return {
 
     sendPageRequest: sendPageRequest,
@@ -167,7 +187,9 @@ module.exports = (function() {
     checkSiteMapForUrl: checkSiteMapForUrl,
     getSiteMap: getSiteMap,
     getRootUrl: getRootUrl,
-    getCurrentUrl: getCurrentUrl
+    getCurrentUrl: getCurrentUrl,
+    resetSiteMap: resetSiteMap,
+    resetRootUrl: resetRootUrl
   
   };
   

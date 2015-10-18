@@ -22,6 +22,7 @@
     "cheerio": "^0.19.0",
     "express": "^4.13.3",
     "jquery": "^2.1.4",
-    "request": "^2.65.0"
+    "request": "^2.65.0",
+    "request-debug": "^0.2.0"
   }
 }

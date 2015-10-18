@@ -21,34 +21,59 @@ app.FormView = Marionette.ItemView.extend({
     var url = $("#input-url").val();
     var requestUrl = "api/pages?" + "url=" + url;
 
-    // send get request to server for requested URL
-    $.get('api/pages', {url: url}, function(results){
-      
-      console.log("got results from server!");
+    var xhr = new XMLHttpRequest();
+    xhr.previous_text = "";
 
-      var entries = JSON.parse(results);
+    xhr.onreadystatechange = function() {
       var entryModels = [];
 
-      // convert results into array of objects 
-      // for adding to collection
-      for (var key in entries) {
-        entries[key]["url"] = key;
-        entryModels.push(entries[key]);
+      try {
+        if(xhr.readyState > 2) {
+          console.log("xhr.previous_text.length: ", xhr.previous_text.length);
+          var new_response = xhr.responseText.substring(xhr.previous_text.length);
+          var results = JSON.parse(JSON.stringify(new_response));
+          xhr.previous_text = xhr.responseText;
+          
+          console.log("results: ", results);
+          
+          // for (var key in results) {
+          //   results[key]["id"] = key;
+          //   entryModels.push(results[key]);
+          //   app.siteMap.add(entryModels);
+          // }
+        }
+      } catch (error) {
+        console.log("error receiving data chunks from server: ", error);
       }
 
-      // if (app.siteMap.length > 0) {
-      //   app.siteMap.reset(entryModels);
-      // }
+    };
 
-      app.siteMap.reset(entryModels);
+    xhr.open("GET", requestUrl, true);
+    xhr.send("Making request to server...");
 
-      // clear out url in input field
-      $("#input-url").val("");
+    // send get request to server for requested URL
+    // $.get('api/pages', {url: url}, function(results){
+      
+    //   var entries = JSON.parse(results);
+    //   var entryModels = [];
 
-      // title list of results with requested URL
-      $("caption").html("<h2>Results from " + url + "</h2>");
+    //   // convert results into array of objects 
+    //   // for adding to collection
+    //   for (var key in entries) {
+    //     entries[key]["url"] = key;
+    //     entryModels.push(entries[key]);
+    //   }
 
-    });
+    //   // reset siteMap collection, and add new models
+    //   app.siteMap.reset(entryModels);
+
+    //   // clear out url in input field
+    //   $("#input-url").val("");
+
+    //   // title list of results with requested URL
+    //   $("caption").html("<h2>Results from " + url + "</h2>");
+
+    // });
 
   }
 

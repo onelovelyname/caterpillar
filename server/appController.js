@@ -7,10 +7,10 @@ module.exports = {
 
     // if it is the first time running crawlPages,
     // reset siteMap to empty object (to avoid storing past results)
-    if (!Crawler.getRootUrl()) {
-      console.log("calling resetSiteMap");
-      Crawler.resetSiteMap();
-    }
+    // if (!Crawler.getRootUrl()) {
+    //   console.log("calling resetSiteMap");
+    //   Crawler.resetSiteMap();
+    // }
 
     var context = this;
 
@@ -41,7 +41,7 @@ module.exports = {
 
                   var pageLinks = results[2];
 
-                  var testPageLinks = pageLinks.slice(0,2);
+                  var testPageLinks = pageLinks.slice(0,5);
 
                   Crawler.addEntryToSiteMap(entry);
 
@@ -53,7 +53,7 @@ module.exports = {
                     
                     // reset rootUrl so that future calls to crawlPages
                     // can reset siteMap
-                    Crawler.resetRootUrl();
+                    // Crawler.resetRootUrl();
                     
                     resolve(JSON.stringify(siteMap));
                   });

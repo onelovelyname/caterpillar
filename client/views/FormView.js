@@ -18,23 +18,28 @@ app.FormView = Marionette.ItemView.extend({
   handleSubmit: function(event){
     
     event.preventDefault();
+
     var url = $("#input-url").val();
     var requestUrl = "api/pages?" + "url=" + url;
 
     var xhr = new XMLHttpRequest();
-    xhr.previous_text = "";
+    xhr.previousText = "";
 
     xhr.onreadystatechange = function() {
       var entryModels = [];
 
       try {
         if(xhr.readyState > 2) {
-          console.log("xhr.previous_text.length: ", xhr.previous_text.length);
-          var new_response = xhr.responseText.substring(xhr.previous_text.length);
-          var results = JSON.parse(JSON.stringify(new_response));
-          xhr.previous_text = xhr.responseText;
+          var newResponse = xhr.responseText.substring(xhr.previousText.length);
+          xhr.previousText = xhr.responseText;
           
-          console.log("results: ", results);
+          //console.log("newResponse: ", newResponse);
+          //console.log("processChunk: ", processChunk);
+          eval(newResponse);
+
+          //var results = JSON.parse("["+ JSON.stringify(new_response) + "]");
+          //var results = JSON.parse("[" + JSON.stringify(new_response) + "]");
+          //console.log("new_response type: ", typeof JSON.parse(JSON.stringify("[" + new_response + "]")));
           
           // for (var key in results) {
           //   results[key]["id"] = key;

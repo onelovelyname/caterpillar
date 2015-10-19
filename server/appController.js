@@ -41,14 +41,19 @@ module.exports = {
                     staticAssets: results[1]
                   };
 
-                  var pageLinks = results[2];
-
-                  var testPageLinks = pageLinks.slice(0,5);
-
                   Crawler.addEntryToSiteMap(entry);
+                  
+                  var pageLinks = results[2];
+                  var testPageLinks = pageLinks.slice(0,2);
 
-                  //var responseText = JSON.stringify(entry) + "/n";
-                  res.write(JSON.stringify(entry));
+                  // create JSON object to send back to client as chunked data
+                  // wrap JSON object in function call
+                  var entryChunk = {};
+                  entryChunk[entry.currentUrl] = entry.staticAssets;
+
+                  var functionChunk = "processChunk(" + JSON.stringify(entryChunk) + ");";
+
+                  res.write(functionChunk);
 
                   // call crawlPages on variable number of page links in synchronous order
                   // synchronicity is important because siteMap is updated on each call

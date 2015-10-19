@@ -33,19 +33,14 @@ app.FormView = Marionette.ItemView.extend({
           var newResponse = xhr.responseText.substring(xhr.previousText.length);
           xhr.previousText = xhr.responseText;
           
-          //console.log("newResponse: ", newResponse);
-          //console.log("processChunk: ", processChunk);
           eval(newResponse);
 
-          //var results = JSON.parse("["+ JSON.stringify(new_response) + "]");
-          //var results = JSON.parse("[" + JSON.stringify(new_response) + "]");
-          //console.log("new_response type: ", typeof JSON.parse(JSON.stringify("[" + new_response + "]")));
+          // clear out url in input field
+          $("#input-url").val("");
+
+          // title list of results with requested URL
+          $("caption").html("<h2>Results from " + url + " (" + app.siteMap.length + ")</h2>");
           
-          // for (var key in results) {
-          //   results[key]["id"] = key;
-          //   entryModels.push(results[key]);
-          //   app.siteMap.add(entryModels);
-          // }
         }
       } catch (error) {
         console.log("error receiving data chunks from server: ", error);

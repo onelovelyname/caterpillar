@@ -44,7 +44,7 @@ module.exports = {
                   Crawler.addEntryToSiteMap(entry);
                   
                   var pageLinks = results[2];
-                  var testPageLinks = pageLinks.slice(0,2);
+                  var testPageLinks = pageLinks.slice(0,5);
 
                   // create JSON object to send back to client as chunked data
                   // wrap JSON object in function call
@@ -57,7 +57,7 @@ module.exports = {
 
                   // call crawlPages on variable number of page links in synchronous order
                   // synchronicity is important because siteMap is updated on each call
-                  Promise.reduce(testPageLinks, function(total, pageLink){
+                  Promise.reduce(pageLinks, function(total, pageLink){
                     return context.crawlPages(pageLink, req, res).then(function(){
                     });
                   }).then(function(){

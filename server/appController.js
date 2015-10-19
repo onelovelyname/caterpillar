@@ -32,6 +32,8 @@ module.exports = {
                   Crawler.getPageLinks(html)
               ]).then(function(results){
 
+                // Promise.all callback returns ordered results, 
+                // corresponding to array of function calls passed as Promise.all arguments
                 if (results) {
 
                   var entry = {
@@ -39,13 +41,23 @@ module.exports = {
                     staticAssets: results[1]
                   };
 
+                  Crawler.addEntryToSiteMap(entry);
+                  
                   var pageLinks = results[2];
-
                   var testPageLinks = pageLinks.slice(0,5);
 
-                  Crawler.addEntryToSiteMap(entry);
+                  // create JSON object to send back to client as chunked data
+                  // wrap JSON object in function call
+                  var entryChunk = {};
+                  entryChunk[entry.currentUrl] = entry.staticAssets;
 
-                  Promise.reduce(testPageLinks, function(total, pageLink){
+                  var functionChunk = "processChunk(" + JSON.stringify(entryChunk) + ");";
+
+                  res.write(functionChunk);
+
+                  // call crawlPages on variable number of page links in synchronous order
+                  // synchronicity is important because siteMap is updated on each call
+                  Promise.reduce(pageLinks, function(total, pageLink){
                     return context.crawlPages(pageLink, req, res).then(function(){
                     });
                   }).then(function(){
@@ -54,8 +66,10 @@ module.exports = {
                     // reset rootUrl so that future calls to crawlPages
                     // can reset siteMap
                     // Crawler.resetRootUrl();
+                    // console.log("rootUrl reset");
                     
-                    resolve(JSON.stringify(siteMap));
+                    resolve();
+                    //resolve(JSON.stringify(siteMap));
                   });
                   
                 } else {

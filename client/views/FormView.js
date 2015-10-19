@@ -18,37 +18,38 @@ app.FormView = Marionette.ItemView.extend({
   handleSubmit: function(event){
     
     event.preventDefault();
+
     var url = $("#input-url").val();
     var requestUrl = "api/pages?" + "url=" + url;
 
-    // send get request to server for requested URL
-    $.get('api/pages', {url: url}, function(results){
-      
-      console.log("got results from server!");
+    var xhr = new XMLHttpRequest();
+    xhr.previousText = "";
 
-      var entries = JSON.parse(results);
+    xhr.onreadystatechange = function() {
       var entryModels = [];
 
-      // convert results into array of objects 
-      // for adding to collection
-      for (var key in entries) {
-        entries[key]["url"] = key;
-        entryModels.push(entries[key]);
+      try {
+        if(xhr.readyState > 2) {
+          var newResponse = xhr.responseText.substring(xhr.previousText.length);
+          xhr.previousText = xhr.responseText;
+          
+          eval(newResponse);
+
+          // clear out url in input field
+          $("#input-url").val("");
+
+          // title list of results with requested URL
+          $("caption").html("<h2>Results from " + url + " (" + app.siteMap.length + ")</h2>");
+          
+        }
+      } catch (error) {
+        console.log("error receiving data chunks from server: ", error);
       }
 
-      // if (app.siteMap.length > 0) {
-      //   app.siteMap.reset(entryModels);
-      // }
+    };
 
-      app.siteMap.reset(entryModels);
-
-      // clear out url in input field
-      $("#input-url").val("");
-
-      // title list of results with requested URL
-      $("caption").html("<h2>Results from " + url + "</h2>");
-
-    });
+    xhr.open("GET", requestUrl, true);
+    xhr.send("Making request to server...");
 
   }
 

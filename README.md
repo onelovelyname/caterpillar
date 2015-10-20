@@ -5,6 +5,8 @@ Caterpillar is a simple web crawler that performs the following activities:
 1. Crawls all pages within a single domain
 2. Creates a site map, showing which static assets each page depends on
 
+You can find Caterpillar live at [https://caterpillars.herokuapp.com/](https://caterpillars.herokuapp.com/).
+
 ## Technologies used
 Node.js, Express, Bluebird (Promise library), Cheerio (DOM parser, alternative to JS-DOM) Backbone.js, Marionette.js, Heroku
 

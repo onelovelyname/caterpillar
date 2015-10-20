@@ -1,3 +1,5 @@
+![Caterpillar screenshot](./client/assets/images/caterpillar-screenshot.jpg "Caterpillar web crawler")
+
 # Introduction to caterpillar
 Caterpillar is a simple web crawler that performs the following activities:
 1. Crawls all pages within a single domain

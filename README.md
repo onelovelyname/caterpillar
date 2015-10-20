@@ -1,4 +1,4 @@
-![Caterpillar screenshot](./client/assets/images/caterpillar-screenshot.jpg "Caterpillar web crawler")
+![Caterpillar screenshot](./client/assets/images/caterpillar-screenshot.png "Caterpillar web crawler")
 
 # Introduction to caterpillar
 Caterpillar is a simple web crawler that performs the following activities:

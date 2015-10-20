@@ -3,14 +3,14 @@ var Promise = require("bluebird");
 
 module.exports = {
 
-  crawlPages: function(url, req, res) {
+  resetRootAndSiteMap: function() {
 
-    // if it is the first time running crawlPages,
-    // reset siteMap to empty object (to avoid storing past results)
-    // if (!Crawler.getRootUrl()) {
-    //   console.log("calling resetSiteMap");
-    //   Crawler.resetSiteMap();
-    // }
+    Crawler.resetRootUrl();
+    Crawler.resetSiteMap();
+
+  },
+
+  crawlPages: function(url, req, res) {
 
     var context = this;
 
@@ -44,7 +44,6 @@ module.exports = {
                   Crawler.addEntryToSiteMap(entry);
                   
                   var pageLinks = results[2];
-                  var testPageLinks = pageLinks.slice(0,5);
 
                   // create JSON object to send back to client as chunked data
                   // wrap JSON object in function call
@@ -61,15 +60,9 @@ module.exports = {
                     return context.crawlPages(pageLink, req, res).then(function(){
                     });
                   }).then(function(){
-                    var siteMap = Crawler.getSiteMap();
-                    
-                    // reset rootUrl so that future calls to crawlPages
-                    // can reset siteMap
-                    // Crawler.resetRootUrl();
-                    // console.log("rootUrl reset");
-                    
+
                     resolve();
-                    //resolve(JSON.stringify(siteMap));
+
                   });
                   
                 } else {

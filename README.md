@@ -27,3 +27,6 @@ Node.js, Express, Bluebird (Promise library), Cheerio (DOM parser, alternative t
   - This was a problem when sites took longer than 2 minutes to parse completely. For about 300 pages, the time to parse is around 2.5 minutes. 
   - To deal with this problem, I kept the server connection open in index.js
 
+## Testing
+
+Testing of HTTP(S) requests made by the request module and their responses from external servers can be activated by uncommenting line 7 in server/crawler.js. This will show the status of each request made.
